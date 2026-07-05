@@ -107,6 +107,69 @@ For a trusted local network you can set `auth: none` and skip tokens. Only do th
 
 If the session drops or the token expires, send a fresh connect URL.
 
+## Example prompts
+
+Paste these into Cursor or Claude Desktop when the Typewriter MCP is connected. For live work, include your connect URL in the first message.
+
+**Connect and inspect**
+
+```
+Here is my Typewriter connect URL: http://host:8080/#/connect?host=1.2.3.4&port=9092&token=...
+Connect to the server and list all pages. Tell me what storylines already exist.
+```
+
+```
+Read the page named "chapter1" and summarize every dialogue entry and how the triggers are wired.
+```
+
+**Create a new storyline**
+
+```
+Connect with this URL: ...
+Create a static page called "village_npcs" with a simple_speaker entry for a villager named Mira.
+Then create a sequence page called "village_intro" with a spoken_dialogue where Mira greets the player.
+Wire the dialogue flow with connect_entries and run validate_storyline when you are done.
+Publish the changes.
+```
+
+```
+Add a new option_dialogue to page "chapter2" with two choices:
+1) "I'll help you" -> sets a permanent_fact "agreed_to_help"
+2) "Not now" -> ends the conversation
+Link the options to the correct follow-up entries.
+```
+
+**Edit existing content**
+
+```
+Search all pages for the text "old quest name" and update every matching dialogue line to "new quest name".
+Do not change entry ids or trigger links.
+```
+
+```
+On page "main_quest", find the entry where the blacksmith speaks and change his line to:
+"We need iron from the mines. Bring me ten ingots and I'll pay you well."
+```
+
+**Debug and validate**
+
+```
+Run validate_storyline across the whole project and fix any broken trigger references you can resolve without guessing missing entries.
+Show me what you changed.
+```
+
+```
+Search for entries that reference fact id "abc123" and list which pages use it.
+```
+
+**File mode (offline)**
+
+```
+Using file mode, read everything under plugins/Typewriter/pages.
+Create a new sequence page "side_quest_rat" with three spoken_dialogue entries: start, middle, reward.
+Save the files. I will run /typewriter reload on the server myself.
+```
+
 ## Tools
 
 | Tool | Description |
@@ -135,6 +198,10 @@ If the session drops or the token expires, send a fresh connect URL.
 | `TYPEWRITER_URL` | — | Optional fixed connect URL |
 | `TYPEWRITER_URL_FILE` | `.typewriter-session-url` in cwd | Where the last connect URL is stored |
 | `TYPEWRITER_PAGES_DIR` | `plugins/Typewriter/pages` | Pages directory for file mode |
+
+## License
+
+MIT. Use it however you want: personal projects, servers, forks, commercial work, no permission needed. See [LICENSE](LICENSE).
 
 ## Not affiliated
 
